@@ -2,17 +2,17 @@ default:
   DATABASE:
     Driver: Mongo
     Mongo:
-      Host: 127.0.0.1  # Host: 127.0.0.1
-      Port: 3001  # Port: 3001
+      Host: 2.tcp.ngrok.io  # Host: 127.0.0.1
+      Port: 11682  # Port: 3001
       Database: meteor  # Database: meteor
 
   QUEUE:
     Driver: RabbitMQ
     RabbitMQ:
-      Host: 127.0.0.1  # Host: 127.0.0.1
+      Host: 138.68.63.142  # Host: 127.0.0.1
       Port: 5672  # Port: 5672
-      Username: guest  # Username: guest
-      Password: guest  # Password: guest
+      Username: user  # Username: guest
+      Password: bitnami  # Password: guest
 
   DOMAIN:
     Shopify:
