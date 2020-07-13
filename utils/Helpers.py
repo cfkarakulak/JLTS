@@ -1,7 +1,7 @@
 import os
 import logging
 
-from domain.Shopify.utils.Database import Database
+from utils.Database import Database
 
 logging.basicConfig()
 LOG = logging.getLogger()
