@@ -52,14 +52,9 @@ class ShopifyItemLister(API):
                 }],
             }
 
-            # niye _id yi kendimiz atıyoruz
-            # insertten gelen id'yi yakalamanın bir yolu yok mu?
-            # shopifyUniqueID = meteorStyleId()
-
             # Insert entry in db based on calculated values above
             # DB.ShopifyListings.insert({
             #     '_created_at': datetime.utcnow(),
-            #     '_id': shopifyUniqueID,
             #     'shopify_item_id': str(shopify_item_id),
             #     'seller_sku': seller_sku,
             #     'asin': asin,

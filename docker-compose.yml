@@ -16,6 +16,8 @@ services:
     networks:
       public_net:
         ipv4_address: 10.10.10.10
+    depends_on: # rabbitMQ must be initialized before supervisord
+      - rabbitmq
 
   rabbitmq:
     container_name: JLTS_rabbitmq

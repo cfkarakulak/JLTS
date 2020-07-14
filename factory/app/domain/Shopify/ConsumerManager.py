@@ -19,8 +19,8 @@ def handle(channel, method, properties, body):
         path = Path(__file__).parent.absolute()
 
         command = [
-            f'python3.8',
-            f'{path}/consumers/ShopifyProductPublisherConsumer.py',
+            f'/app/venv/bin/python',
+            f'{path}/consumers/ShopifyItemLister.py',
             f'--target={queue}'
         ]
 

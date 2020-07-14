@@ -3,7 +3,7 @@ default:
     Driver: Mongo
     Mongo:
       Host: 2.tcp.ngrok.io  # Host: 127.0.0.1
-      Port: 11682  # Port: 3001
+      Port: 12626  # Port: 3001
       Database: meteor  # Database: meteor
 
   QUEUE:
