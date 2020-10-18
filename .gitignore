@@ -1,5 +1,7 @@
 sftp-config.json
 
+logs/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -56,3 +58,5 @@ venv.bak/
 
 # mac shit
 .DS_Store
+
+deleteAllShopifyOrders.py

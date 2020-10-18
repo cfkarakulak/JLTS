@@ -1,0 +1,72 @@
+default:
+  APP:
+    ConsumerManager:
+        GlobalProcessLimit: 256
+        ConsumerPerQueue: 1
+
+    Bugsnag:
+      Key: d0a70bd9f4df74772dd7ff4197ef3c14
+
+    Tasks:
+      List: ShopifyItemLister.py
+      Publish: ShopifyItemPublisher.py
+      Unpublish: ShopifyItemUnpublisher.py
+      Reprice: ShopifyItemRepricer.py
+      Fulfill: ShopifyOrderFulfiller.py
+      Track: ShopifyOrderTracker.py
+
+  DATABASE:
+    Driver: Mongo
+    Mongo:
+      URL: mongodb://127.0.0.1:3001/meteor
+
+  QUEUE:
+    Driver: RabbitMQ
+    RabbitMQ:
+      URL: amqp://127.0.0.1:5672/shopify
+
+  AMAZON:
+    Api:
+      AccessKey: AKIAJGOEIGXSQYJCQYKQ
+      SecretKey: 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
+      MarketplaceUSA: ATVPDKIKX0DER
+
+  SHOPIFY:
+    Queue:
+      VirtualHost: shopify
+      PendingTasks: DEBUG::Pending.Tasks.Queue
+
+    Endpoints:
+        Products: https://{domain}/admin/api/2019-10/products.json
+        Product: https://{domain}/admin/api/2019-10/products/{product_id}.json
+        Orders: https://{domain}/admin/api/2019-10/orders.json?status=any
+        Fulfillments: https://{domain}/admin/api/2019-10/orders/{order_id}/fulfillments.json
+        Fulfillment: https://{domain}/admin/api/2019-10/orders/{order_id}/fulfillments/{fulfillment_id}.json
+
+  EMAILS:
+    Info:
+      From:
+        - JoeLister
+        - hello@joelister.com
+      Host:
+        - smtp.mailgun.org
+        - 587
+      Credentials:
+        - postmaster@zinc.io
+        - 9t3o4vn4f556
+
+    Fulfillment:
+      NoInventory:
+        Subject: "JoeLister: Failed to Fulfill Sale"
+        Body: "Hi, \n\n JoeLister has failed to process sale #{order_id} for item {product_title} (ID #{product_id}). You have no inventory available for this item at FBA. This is most likely because you made a sale on Shopify and Amazon within 2 minutes of each other. You can either: \n\n 1) Increase your inventory in FBA for this item, and process this order through Amazon manually. \n 2) Cancel the Shopify order and email the buyer.\n\nSorry for the inconvenience, and feel free to reach out if you have any questions! \n\n Best, \nJoe Lister"
+      AFN:
+        Subject: "JoeLister: New Shopify Sale!"
+        Body: "Congratulations! \n\n An order was just placed on Shopify by {buyer_name}. The transaction ID for this sale is {order_id}.\n\nBest, \n Joe Lister"
+      MFN:
+        Subject: "JoeLister MFN Sale: Action Required"
+        Body: "Hi, \n\n Congratulations, Your Shopify item {product_title} just sold! The transaction number is {order_id}. Since this is an MFN item, you are responsible for fulfilling it. Please ship it to: \n\n {shipping_address} \n\n Best, \n Joe Lister"
+
+    Tracking:
+      Obtained:
+        Subject: "JoeLister: Tracking Information"
+        Body: "Hi, \n\n The tracking information for transaction #{order_id} has been obtained. Your order is being shipped by {carrier_code} and the tracking number is {tracking_number}. The estimated arrival time for this order is {estimated_arrival} \n\n Best, \n Joe Lister"

@@ -1,42 +1,21 @@
-version: '3.7'
+version: '3.3'
 
 services:
   python:
     container_name: JLTS_python
-    build: ./docker/python/build/${PYTHON_VERSION}/${ENVIRONMENT} # use -prod for production
-    image: 'bitnami/python:${PYTHON_VERSION}'
-    # command: "sh -c 'pip install -r requirements.txt'"
+    build:
+        context: ./
+        dockerfile: ./docker/python/Dockerfile
+    image: "bitnami/python:${PYTHON_VERSION}"
     tty: true
     ports:
-      - '8000:8000'
+      - 8000:8000
       - 9001:9001 # Access GUI with http://localhost:9001/
     volumes:
-      - './factory:/app'
-      # - .:/app:cached
+      - "./src:/app"
     networks:
       public_net:
         ipv4_address: 10.10.10.10
-    depends_on: # rabbitMQ must be initialized before supervisord
-      - rabbitmq
-
-  rabbitmq:
-    container_name: JLTS_rabbitmq
-    build: ./docker/rabbitmq/build/${RABBITMQ_VERSION}/${ENVIRONMENT}
-    image: 'bitnami/rabbitmq:${RABBITMQ_VERSION}'
-    ports:
-      - '4369:4369'
-      - '5672:5672'
-      - '25672:25672'
-      - '15672:15672'
-    volumes:
-      - 'rabbitmq_data:/bitnami'
-    networks:
-      public_net:
-        ipv4_address: 10.10.10.11
-
-volumes:
-  rabbitmq_data:
-    driver: local
 
 networks:
   public_net:
