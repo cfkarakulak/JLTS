@@ -31,5 +31,5 @@ jobs:
           name: Deploy to production
           command: |
             cd /home/circleci/app
-            . venv/bin/activate
+            . src/venv/bin/activate
             ansible-playbook -i deployment/inventory/hosts deployment/playbook.yml
