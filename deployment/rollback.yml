@@ -1,0 +1,5 @@
+- name: "Revert the build"
+  any_errors_fatal: true
+  hosts: web
+  roles:
+    - { role: revert_web_build, become: true }

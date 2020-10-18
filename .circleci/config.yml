@@ -29,4 +29,4 @@ jobs:
           name: Deploy to production
           command: |
             . venv/bin/activate
-            ansible-playbook -i deployment/hosts deployment/playbook.yml
+            ansible-playbook -i deployment/inventory/hosts deployment/playbook.yml

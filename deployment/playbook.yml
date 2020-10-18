@@ -1,0 +1,9 @@
+---
+
+- name: "Deploy to production"
+  hosts: JLPlayground
+  any_errors_fatal: true
+  become: true
+  roles:
+    # - github
+    - deploy
