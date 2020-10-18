@@ -54,7 +54,7 @@
   pip:
     requirements: "{{ build_dir }}/src/requirements.txt"
     virtualenv: "{{ build_dir }}/env"
-    extra_args: "--use-wheel --no-index --find-links={{project_root}}/wheels"
+    extra_args: "--only-binary --no-index --find-links={{project_root}}/wheels"
 
 - name: "Update current release symlink"
   file:
