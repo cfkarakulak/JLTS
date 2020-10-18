@@ -1,7 +1,13 @@
-version: 2
+version: 2.1
+
+parameters:
+  workingdir:
+    type: string
+    default: "/home/circleci/app"
+
 jobs:
   build:
-    working_directory: /home/circleci/app
+    working_directory: << pipeline.parameters.workingdir >>
     docker:
       - image: circleci/python:3.8.2
     environment:
@@ -12,24 +18,19 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - deps-{{ checksum "/home/circleci/app/src/requirements.txt" }}
+            - deps-{{ checksum << pipeline.parameters.workingdir >> "/src/requirements.txt" }}
       - run:
           name: Install Dependencies
           command: |
-            cd /home/circleci/app/src
-            python3 -m venv venv
-            . venv/bin/activate
             pip install ansible
-            pip install -r requirements.txt
+            pip install -r << pipeline.parameters.workingdir >>/src/requirements.txt
             sudo apt update
             sudo apt install rsync
       - save_cache:
-          key: deps-{{ checksum "/home/circleci/app/src/requirements.txt" }}
+          key: deps-{{ checksum << pipeline.parameters.workingdir >> "/src/requirements.txt" }}
           paths:
             - venv
       - run:
           name: Deploy to production
           command: |
-            cd /home/circleci/app/src
-            . venv/bin/activate
-            ansible-playbook -i deployment/inventory/hosts deployment/playbook.yml
+            ansible-playbook -i << pipeline.parameters.workingdir >> /deployment/inventory/hosts << pipeline.parameters.workingdir >> /deployment/playbook.yml
