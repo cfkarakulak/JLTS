@@ -9,6 +9,9 @@ jobs:
       - ANSIBLE_LOCAL_TEMP: /home/circleci/.ansible/tmp
       - ANSIBLE_REMOTE_TEMP: /home/circleci/.ansible/tmp
     steps:
+      - add_ssh_keys:
+        fingerprints:
+          - "66:c2:db:1f:9b:b7:a7:d2:46:bc:e5:a2:96:a6:dc:db"
       - checkout
       - restore_cache:
           keys:
