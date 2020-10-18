@@ -1,52 +1,21 @@
-version: 2
+version: 2.1
+
+orbs:
+  python: circleci/python@0.2.1
+
 jobs:
-  build:
-    docker:
-      - image: circleci/python:3.6.2
-    environment:
-      - ANSIBLE_HOST_KEY_CHECKING: False
-      - ANSIBLE_LOCAL_TEMP: /home/circleci/.ansible/tmp
-      - ANSIBLE_REMOTE_TEMP: /home/circleci/.ansible/tmp
+  build-and-test:
+    executor: python/default
     steps:
       - checkout
-      - restore_cache:
-          keys:
-          - deps-{{ checksum "requirements.txt" }}
+      - python/load-cache
+      - python/install-deps
+      - python/save-cache
       - run:
-          name: Install Dependencies
-          command: |
-              python3 -m venv env
-              . env/bin/activate
-              pip install ansible
-              pip install -r requirements.txt
-              sudo apt update
-              sudo apt install rsync
-      - save_cache:
-          key: deps-{{ checksum "requirements.txt" }}
-          paths:
-              - "env"
-      - run:
-          name: Run Tests
-          command: |
-              . env/bin/activate
-              export PYTHONPATH=.
-              export TEST_MODE=1
-              pytest -vs
-      - store_artifacts:
-          path: test-reports
-          destination: test-reports
+          command: ./manage.py test
+          name: Test
 
-      - run:
-        name: Deploy to production
-        command: |
-          . env/bin/activate
-          ansible-playbook -i ansible/hosts ansible/deployment.yml
-
-  workflows:
-    version: 2
-    build:
-      jobs:
-        - build:
-            filters:
-              branches:
-                only: master
+workflows:
+  main:
+    jobs:
+      - build-and-test
