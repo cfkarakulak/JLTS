@@ -1,7 +1,7 @@
 ---
 
 project_root: "/home/cemrekarakulak/app"
-project_source: "{{ playbook_dir }}"
+project_source: "{{ playbook_dir }}/.."
 builds_dir: "/home/cemrekarakulak/app/builds"
 current_release_dir: "/home/cemrekarakulak/app/current"
 excludes_file: "{{ playbook_dir }}/rsync_excludes"
