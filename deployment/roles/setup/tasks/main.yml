@@ -15,7 +15,9 @@
     state: mounted
 
 - name: install fail2ban for Debian
-  apt: pkg=fail2ban state=present
+  apt:
+    pkg: fail2ban
+    state: present
 
 - name: configure fail2ban local jails
   template:

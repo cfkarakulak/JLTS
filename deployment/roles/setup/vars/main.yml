@@ -1,6 +1,8 @@
 ---
 
 pkg_list_deb:
+  - supervisor
+  - cron
   - python-apt
   - python-pycurl
   - python-httplib2

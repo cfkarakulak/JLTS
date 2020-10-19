@@ -4,3 +4,10 @@
   apt:
     name: cron
     state: present
+
+- name: Send all cron tasks
+  copy:
+    src: ./
+    dest: /etc/cron.d/
+    remote_src: yes
+    directory_mode: yes

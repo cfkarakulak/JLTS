@@ -4,3 +4,15 @@
   apt:
     name: supervisor
     state: present
+
+- name: Send supervisord.conf
+  copy:
+    src: supervisord.conf
+    dest: /etc/supervisor/supervisord.conf
+
+- name: Send conf.d/* app configs
+  copy:
+    src: conf.d
+    dest: /etc/supervisor/
+    remote_src: yes
+    directory_mode: yes

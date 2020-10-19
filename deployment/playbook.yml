@@ -5,7 +5,7 @@
   any_errors_fatal: true
   become: true
   roles:
-    - dependencies
+    - setup
+    - build
     - supervisor
     - cron
-    - deploy
