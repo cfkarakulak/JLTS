@@ -1,13 +1,8 @@
 ---
 
-- name: "Register Build Time"
-  command: date +%Y%m%d%H%M%S
-  run_once: true
-  register: timestamp
-
 - name: "Create latest build dir variable"
   set_fact:
-    LATEST_BUILD_DIR: "{{ ALL_BUILDS_DIR }}/{{ timestamp.stdout }}"
+    LATEST_BUILD_DIR: "{{ ALL_BUILDS_DIR }}/{{ tag }}"
 
 - name: "Create build directory"
   file:

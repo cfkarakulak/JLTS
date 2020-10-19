@@ -23,6 +23,10 @@ jobs:
           keys:
             - deps-{{ checksum "~/app/src/requirements.txt" }}
       - run:
+          name: Push tag to repository
+          command: |
+            make tag
+      - run:
           name: Install Dependencies
           command: |
             sudo apt update
@@ -35,6 +39,8 @@ jobs:
       - run:
           name: Deploy to production
           command: |
+            TAG=$(git describe --tags --abbrev=0)
             ansible-playbook -i \
             ~/app/deployment/inventory/hosts \
-            ~/app/deployment/playbook.yml
+            ~/app/deployment/playbook.yml \
+            -e "tag=${TAG}"
