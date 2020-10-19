@@ -33,6 +33,6 @@ jobs:
           command: |
             TAG=$(git describe --tags --abbrev=0)
             ansible-playbook -i \
-            ~/app/deployment/inventory/hosts \
-            ~/app/deployment/playbook.yml \
+            ~/app/ansible/inventory/hosts \
+            ~/app/ansible/playbook.yml \
             -e "tag=${TAG}"

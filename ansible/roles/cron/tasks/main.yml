@@ -1,0 +1,23 @@
+---
+
+- name: Install cron
+  apt:
+    name: cron
+    state: present
+
+- name: Send all cron tasks
+  synchronize:
+    src: jobs
+    dest: /etc/cron.d/
+    recursive: True
+    delete: False
+
+- name: Ensure crons are 0644
+  command: chmod 0644 /etc/cron.d/*
+
+- name: Create cron log file
+  file:
+    path: /var/log/cron.log
+    state: touch
+  register: p
+  changed_when: p.diff.before.state == "absent"

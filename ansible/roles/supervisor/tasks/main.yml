@@ -9,10 +9,13 @@
   copy:
     src: supervisord.conf
     dest: /etc/supervisor/supervisord.conf
+    owner: root
+    group: root
+    mode: 0644
 
 - name: Send conf.d/* app configs
-  copy:
+  synchronize:
     src: conf.d
     dest: /etc/supervisor/
-    remote_src: yes
-    directory_mode: yes
+    recursive: True
+    delete: False
