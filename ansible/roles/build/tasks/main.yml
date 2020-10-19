@@ -58,11 +58,6 @@
     path: "{{ CURRENT_RELEASE_DIR }}"
     src: "{{ LATEST_BUILD_DIR }}"
 
-# - name: "Reload UWSGI"
-#   supervisorctl:
-#     name: "uwsgi"
-#     state: restarted
-
 - name: "Cleanup old releases"
   shell: ls -1dt {{ ALL_BUILDS_DIR }}/* | tail -n +{{ STORE_X_BUILDS | int + 2 }} | xargs rm -rf
   when: STORE_X_BUILDS > 0
