@@ -1,5 +1,5 @@
 ---
-PROJECT_ROOT: "~/app"
+PROJECT_ROOT: "/home/cemrekarakulak/app"
 PROJECT_SOURCE: "{{ playbook_dir }}/../src"
 
 ALL_BUILDS_DIR: "{{ PROJECT_ROOT }}/releases"
