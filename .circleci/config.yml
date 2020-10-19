@@ -30,6 +30,8 @@ jobs:
             sudo apt install rsync
       - save_cache:
           key: deps-{{ checksum "/home/circleci/app/src/requirements.txt" }}
+          paths:
+            - /home/circleci/temp
       - run:
           name: Deploy to production
           command: |
