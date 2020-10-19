@@ -1,0 +1,10 @@
+/var/log/zinc/*.log {
+    daily
+    missingok
+    rotate 7
+    compress
+    delaycompress
+    notifempty
+    sharedscripts
+    copytruncate
+}

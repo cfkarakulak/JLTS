@@ -1,0 +1,30 @@
+---
+
+pkg_list_deb:
+  - python-apt
+  - python-pycurl
+  - python-httplib2
+  - auditd
+  - unzip
+  - python-pip-whl
+  - python3-pip
+  - aptitude
+  - python-netaddr
+  - apt-transport-https
+  - at
+  - jq
+  - sudo
+  - vim-nox
+  - tmux
+  - zsh
+  - git
+  - iotop
+  - iftop
+  - nethogs
+  - bwm-ng
+  - vnstat
+  - htop
+  - build-essential
+  - moreutils
+  - curl
+  - wget
