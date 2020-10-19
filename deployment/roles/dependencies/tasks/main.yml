@@ -2,16 +2,15 @@
 
 - name: Install common packages
   apt:
-    name: "{{ item }}"
+    name: "{{ pkg_list_deb }}"
     state: present
     update_cache: yes
     cache_valid_time: "{{ apt_cache_expire }}"
-  with_items: "{{ pkg_list_deb }}"
 
 - name: Ensure /tmp is a tmpfs mount
   mount:
     name: /tmp
-    src: 'tmpfs'
+    src: "tmpfs"
     fstype: tmpfs
     state: mounted
 
