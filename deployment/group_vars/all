@@ -2,6 +2,6 @@
 PROJECT_ROOT: "~/app"
 PROJECT_SOURCE: "{{ playbook_dir }}/src"
 
-ALL_BUILDS_DIR: {{ PROJECT_ROOT }}"/releases"
-CURRENT_RELEASE_DIR: {{ PROJECT_ROOT }}"/current"
+ALL_BUILDS_DIR: "{{ PROJECT_ROOT }}/releases"
+CURRENT_RELEASE_DIR: "{{ PROJECT_ROOT }}/current"
 STORE_X_BUILDS: 5
