@@ -1,8 +1,7 @@
 ---
+PROJECT_ROOT: "~/app"
+PROJECT_SOURCE: "{{ playbook_dir }}/src"
 
-project_root: "/home/cemrekarakulak/app"
-project_source: "{{ playbook_dir }}/.."
-builds_dir: "/home/cemrekarakulak/app/builds"
-current_release_dir: "/home/cemrekarakulak/app/current"
-excludes_file: "{{ playbook_dir }}/rsync_excludes"
-keep_releases: 5
+ALL_BUILDS_DIR: {{ PROJECT_ROOT ~ "/releases" }}
+CURRENT_RELEASE_DIR: {{ PROJECT_ROOT ~ "/current" }}
+STORE_X_BUILDS: 5

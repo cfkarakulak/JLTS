@@ -1,7 +1,7 @@
 # docker:
 #   - image: circleci/python:3.8.2
 ### implement test framework in the future. ###
-# cd /home/circleci/app/src
+# cd ~/app/src
 # python3 -m venv venv
 # . venv/bin/activate
 # pip install -r requirements.txt
@@ -11,7 +11,7 @@ jobs:
   build:
     machine:
       image: ubuntu-1604:202007-01
-    working_directory: /home/circleci/app
+    working_directory: ~/app
     environment:
       - ANSIBLE_HOST_KEY_CHECKING: False
     steps:
@@ -21,18 +21,20 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - deps-{{ checksum "/home/circleci/app/src/requirements.txt" }}
+            - deps-{{ checksum "~/app/src/requirements.txt" }}
       - run:
           name: Install Dependencies
           command: |
-            pip install ansible
             sudo apt update
             sudo apt install rsync
+            pip3 install ansible
       - save_cache:
-          key: deps-{{ checksum "/home/circleci/app/src/requirements.txt" }}
+          key: deps-{{ checksum "~/app/src/requirements.txt" }}
           paths:
-            - /home/circleci/temp
+            - ~/temp
       - run:
           name: Deploy to production
           command: |
-            ansible-playbook -i /home/circleci/app/deployment/inventory/hosts /home/circleci/app/deployment/playbook.yml
+            ansible-playbook -i \
+            ~/app/deployment/inventory/hosts \
+            ~/app/deployment/playbook.yml

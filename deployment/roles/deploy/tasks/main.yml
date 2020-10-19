@@ -3,65 +3,65 @@
 - name: "Register Build Time"
   command: date +%Y%m%d%H%M%S
   run_once: true
-  register: build_time
+  register: timestamp
 
-- name: "set fact"
+- name: "Create latest build dir variable"
   set_fact:
-    build_dir: "{{ builds_dir }}/{{build_time.stdout}}"
+    LATEST_BUILD_DIR: "{{ ALL_BUILDS_DIR }}/{{ timestamp.stdout }}"
 
 - name: "Create build directory"
   file:
-    path: "{{ build_dir }}"
+    path: "{{ LATEST_BUILD_DIR }}"
     state: directory
     mode: 0755
 
-- name: "Rsync repo content to build directory"
+- name: "Rsync repository content to latest build directory"
   synchronize:
-    src: "{{ project_source }}"
-    dest: "{{ build_dir }}"
+    src: "{{ PROJECT_SOURCE }}"
+    dest: "{{ LATEST_BUILD_DIR }}"
 
-- stat: path={{ current_release_dir }}
+- stat: path={{ CURRENT_RELEASE_DIR }}
   register: link
 
 - debug: msg="Current release symlink exists"
   when: link.stat.islnk is defined and link.stat.islnk
 
 - name: "Create checksum from current requirements.txt file"
-  shell: md5sum {{ current_release_dir }}/src/requirements.txt | awk '{print $1}' > {{ project_root }}/old_requirements.checksum
+  shell: md5sum {{ CURRENT_RELEASE_DIR }}/src/requirements.txt | awk '{print $1}' > {{ PROJECT_ROOT }}/requirements.old.checksum
   when: link.stat.islnk is defined and link.stat.islnk
 
 - name: "Create checksum from new build requirements.txt file"
-  shell: md5sum {{ build_dir }}/src/requirements.txt | awk '{print $1}' > {{ project_root }}/new_requirements.checksum
+  shell: md5sum {{ LATEST_BUILD_DIR }}/src/requirements.txt | awk '{print $1}' > {{ PROJECT_ROOT }}/requirements.new.checksum
   when: link.stat.islnk is defined and link.stat.islnk
 
 - name: "Check for checksum changes"
-  shell: diff {{ project_root }}/old_requirements.checksum {{ project_root }}/new_requirements.checksum
-  register: req_diff
+  shell: diff {{ PROJECT_ROOT }}/requirements.old.checksum {{ PROJECT_ROOT }}/requirements.new.checksum
+  register: reqdiff
   when: link.stat.islnk is defined and link.stat.islnk
   ignore_errors: yes
 
 - debug: msg="Changes detected"
-  when: req_diff.rc is defined and req_diff.rc == 1
+  when: reqdiff.rc is defined and reqdiff.rc == 1
 
 - name: "Create build virtualenv"
-  command: python3.8 -m venv {{ build_dir }}/env
+  command: python3.8 -m venv {{ LATEST_BUILD_DIR }}/env
 
 - name: "Pip wheel requirements"
-  command: python3.8 -m pip wheel --wheel-dir={{ project_root }}/wheels -r {{ build_dir }}/src/requirements.txt
-  when: req_diff.rc is not defined or (req_diff.rc is defined and req_diff.rc == 1)
+  command: python3.8 -m pip wheel --wheel-dir={{ PROJECT_ROOT }}/wheels -r {{ LATEST_BUILD_DIR }}/src/requirements.txt
+  when: reqdiff.rc is not defined or (reqdiff.rc is defined and reqdiff.rc == 1)
 
-- name: "Install requirements on new build virtualenv"
+- name: "Install requirements for the latest build"
   pip:
-    requirements: "{{ build_dir }}/src/requirements.txt"
-    virtualenv: "{{ build_dir }}/env"
-    extra_args: "--no-index --find-links={{project_root}}/wheels"
+    requirements: "{{ LATEST_BUILD_DIR }}/src/requirements.txt"
+    virtualenv: "{{ LATEST_BUILD_DIR }}/env"
+    extra_args: "--no-index --find-links={{ PROJECT_ROOT }}/wheels"
 
 - name: "Update current release symlink"
   file:
     state: link
     force: yes
-    path: "{{ current_release_dir }}"
-    src: "{{ build_dir }}"
+    path: "{{ CURRENT_RELEASE_DIR }}"
+    src: "{{ LATEST_BUILD_DIR }}"
 
 # - name: "Reload UWSGI"
 #   supervisorctl:
@@ -69,5 +69,5 @@
 #     state: restarted
 
 - name: "Cleanup old releases"
-  shell: ls -1dt {{ builds_dir }}/* | tail -n +{{ keep_releases | int + 2 }} | xargs rm -rf
-  when: keep_releases > 0
+  shell: ls -1dt {{ ALL_BUILDS_DIR }}/* | tail -n +{{ STORE_X_BUILDS | int + 2 }} | xargs rm -rf
+  when: STORE_X_BUILDS > 0
