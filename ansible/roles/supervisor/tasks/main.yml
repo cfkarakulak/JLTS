@@ -18,4 +18,9 @@
     src: conf.d
     dest: /etc/supervisor/
     recursive: True
-    delete: False
+    delete: True
+
+- name: Restart supervisord service
+  supervisorctl:
+    state: restarted
+    config: /etc/supervisor/supervisord.conf

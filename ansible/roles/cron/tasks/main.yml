@@ -10,10 +10,10 @@
     src: jobs
     dest: /etc/cron.d/
     recursive: True
-    delete: False
+    delete: True
 
-- name: Ensure crons are 0644
-  command: chmod 0644 /etc/cron.d/*
+# - name: Ensure crons are 0644
+#   command: chmod 0644 /etc/cron.d/*
 
 - name: Create cron log file
   file:
@@ -21,3 +21,8 @@
     state: touch
   register: p
   changed_when: p.diff.before.state == "absent"
+
+- name: Restart cron service
+  service:
+    name: cron
+    state: restarted
