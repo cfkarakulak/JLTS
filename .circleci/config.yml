@@ -1,13 +1,17 @@
+# docker:
+#   - image: circleci/python:3.8.2
+### implement test framework in the future. ###
+# cd /home/circleci/app/src
+# python3 -m venv venv
+# . venv/bin/activate
+# pip install -r requirements.txt
+
 version: 2
 jobs:
   build:
     working_directory: /home/circleci/app
-    docker:
-      - image: circleci/python:3.8.2
     environment:
       - ANSIBLE_HOST_KEY_CHECKING: False
-      # - ANSIBLE_LOCAL_TEMP: /home/circleci/.ansible/tmp
-      # - ANSIBLE_REMOTE_TEMP: /home/circleci/.ansible/tmp
     steps:
       - add_ssh_keys:
           fingerprints:
@@ -19,20 +23,12 @@ jobs:
       - run:
           name: Install Dependencies
           command: |
-            cd /home/circleci/app/src
-            python3 -m venv venv
-            . venv/bin/activate
             pip install ansible
-            pip install -r requirements.txt
             sudo apt update
             sudo apt install rsync
       - save_cache:
           key: deps-{{ checksum "/home/circleci/app/src/requirements.txt" }}
-          paths:
-            - venv
       - run:
           name: Deploy to production
           command: |
-            cd /home/circleci/app
-            . src/venv/bin/activate
-            ansible-playbook -i deployment/inventory/hosts deployment/playbook.yml
+            ansible-playbook -i /home/circleci/app/deployment/inventory/hosts /home/circleci/app/deployment/playbook.yml
