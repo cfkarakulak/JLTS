@@ -5,6 +5,15 @@
     name: supervisor
     state: present
 
+- shell: ls -1 /etc/supervisor
+  register: oldjobs
+
+- name: Empty directory for old files
+  file:
+    path: /etc/supervisor/{{ item }}
+    state: absent
+  with_items: "{{ oldjobs.stdout_lines }}"
+
 - name: Send supervisord.conf
   copy:
     src: supervisord.conf
@@ -14,10 +23,11 @@
     mode: 0644
 
 - name: Send conf.d/* app configs
-  synchronize:
-    src: conf.d
-    dest: /etc/supervisor/
-    recursive: True
-    delete: True
+  copy:
+    src: conf.d/
+    dest: /etc/supervisor/conf.d
+    owner: root
+    group: root
+    mode: 0644
   notify:
     - restart supervisor

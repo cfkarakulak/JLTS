@@ -5,12 +5,22 @@
     name: cron
     state: present
 
+- shell: ls -1 /etc/cron.d
+  register: oldjobs
+
+- name: Empty directory for old files
+  file:
+    path: /etc/cron.d/{{ item }}
+    state: absent
+  with_items: "{{ oldjobs.stdout_lines }}"
+
 - name: Send all cron tasks
-  synchronize:
-    src: jobs/*
+  copy:
+    src: jobs/
     dest: /etc/cron.d
-    recursive: True
-    delete: True
+    owner: root
+    group: root
+    mode: 0644
 
 # - name: Ensure crons are 0644
 #   command: chmod 0644 /etc/cron.d/*
