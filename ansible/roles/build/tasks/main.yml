@@ -39,7 +39,7 @@
   when: reqdiff.rc is defined and reqdiff.rc == 1
 
 - name: "Create build virtualenv"
-  command: python3.8 -m venv {{ LATEST_BUILD_DIR }}/env
+  command: python3.8 -m venv {{ LATEST_BUILD_DIR }}/venv
 
 - name: "Pip wheel requirements"
   command: python3.8 -m pip wheel --wheel-dir={{ PROJECT_ROOT }}/wheels -r {{ LATEST_BUILD_DIR }}/src/requirements.txt
@@ -48,8 +48,11 @@
 - name: "Install requirements for the latest build"
   pip:
     requirements: "{{ LATEST_BUILD_DIR }}/src/requirements.txt"
-    virtualenv: "{{ LATEST_BUILD_DIR }}/env"
+    virtualenv: "{{ LATEST_BUILD_DIR }}/venv"
     extra_args: "--no-index --find-links={{ PROJECT_ROOT }}/wheels"
+
+- name: "Activate virtualenv"
+  shell: "source {{ LATEST_BUILD_DIR }}/venv/bin/activate"
 
 - name: "Update current release symlink"
   file:
