@@ -7,8 +7,8 @@
 
 - name: Send all cron tasks
   synchronize:
-    src: jobs
-    dest: /etc/cron.d/
+    src: jobs/*
+    dest: /etc/cron.d
     recursive: True
     delete: True
 
