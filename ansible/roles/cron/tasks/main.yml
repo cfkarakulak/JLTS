@@ -22,10 +22,7 @@
     group: root
     mode: 0644
 
-# - name: Ensure crons are 0644
-#   command: chmod 0644 /etc/cron.d/*
-
-- name: Create cron log file
+- name: Create cron log file # didnt redirect stderr
   file:
     path: /var/log/cron.log
     state: touch
