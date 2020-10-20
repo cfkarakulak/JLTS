@@ -51,9 +51,6 @@
     virtualenv: "{{ LATEST_BUILD_DIR }}/venv"
     extra_args: "--no-index --find-links={{ PROJECT_ROOT }}/wheels"
 
-- name: "Activate virtualenv"
-  shell: "source {{ LATEST_BUILD_DIR }}/venv/bin/activate"
-
 - name: "Update current release symlink"
   file:
     state: link
