@@ -1,13 +1,5 @@
 ---
 
-- name: "cemre"
-  debug:
-    msg: "{{ cemre }}"
-
-- name: "tag"
-  debug:
-    msg: "{{ tag }}"
-
 - name: "Create latest build dir variable"
   set_fact:
     LATEST_BUILD_DIR: "{{ ALL_BUILDS_DIR }}/{{ tag }}"
