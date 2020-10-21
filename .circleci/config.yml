@@ -37,5 +37,6 @@ jobs:
               tower-cli config host http://34.123.174.145
               tower-cli config username admin
               tower-cli config password ak64ck94
+              tower-cli config verify_ssl False
               tower-cli job launch --monitor -J "JLTemplate" -e "tag=${TAG}"
             fi
