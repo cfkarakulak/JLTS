@@ -28,11 +28,13 @@ jobs:
           key: deps-{{ checksum "~/app/src/requirements.txt" }}
           paths:
             - ~/temp
-      - run:
+      - deploy:
           name: Deploy to production
           command: |
-            TAG=$(git describe --tags --abbrev=0)
-            ansible-playbook -i \
-            ~/app/ansible/inventory/hosts \
-            ~/app/ansible/playbook.yml \
-            -e "tag=${TAG}"
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then
+              TAG=$(git describe --tags --abbrev=0)
+              tower-cli config host http://34.123.174.145
+              tower-cli config username admin
+              tower-cli config password ak64ck94
+              tower-cli job launch --monitor -J "JLTemplate" -e "tag=${TAG}"
+            fi
