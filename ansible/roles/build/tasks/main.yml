@@ -2,7 +2,7 @@
 
 - name: "Create latest build dir variable"
   set_fact:
-    LATEST_BUILD_DIR: "{{ ALL_BUILDS_DIR }}/{{ tag }}"
+    LATEST_BUILD_DIR: "{{ ALL_BUILDS_DIR }}/{{ CEMRETAG }}"
 
 - name: "Create build directory"
   file:
