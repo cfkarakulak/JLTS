@@ -35,4 +35,4 @@ jobs:
             ansible-playbook -i \
             ~/app/ansible/inventory/hosts \
             ~/app/ansible/playbook.yml \
-            -e "CEMRETAG=${TAG}"
+            -e "tag=${TAG}"
