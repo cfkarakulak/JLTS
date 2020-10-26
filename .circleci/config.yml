@@ -38,5 +38,5 @@ jobs:
               tower-cli config username admin
               tower-cli config password ak64ck94
               tower-cli config verify_ssl False
-              tower-cli job launch --monitor -J "JLTemplate" -e "tag=${TAG}"
+              tower-cli job launch --monitor -J "JL2 Build" -e "tag=${TAG}"
             fi
