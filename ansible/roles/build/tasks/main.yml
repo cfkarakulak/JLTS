@@ -10,9 +10,11 @@
     state: directory
     mode: 0755
 
+- debug: msg="the value of foo.txt is {{ lookup('file', "{{ PROJECT_SOURCE }}/ShopifyConsumerManager.py") }}"
+
 - name: "Rsync repository content to latest build directory"
   synchronize:
-    src: "/home/circleci/app/src"
+    src: "{{ PROJECT_SOURCE }}"
     # "{{ PROJECT_SOURCE somehow sees /tmp/awx(randomshit) }}"
     # lookup('env', 'CIRCLE_WORKING_DIRECTORY') }}
     dest: "{{ LATEST_BUILD_DIR }}"
