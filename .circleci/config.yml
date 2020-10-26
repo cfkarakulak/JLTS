@@ -11,9 +11,9 @@ jobs:
           fingerprints:
             - "66:c2:db:1f:9b:b7:a7:d2:46:bc:e5:a2:96:a6:dc:db"
       - checkout
-      - restore_cache:
-          keys:
-            - deps-{{ checksum "~/app/src/requirements.txt" }}
+      # - restore_cache:
+      #     keys:
+      #       - deps-{{ checksum "~/app/src/requirements.txt" }}
       - run:
           name: Push tag to repository
           command: |
@@ -25,10 +25,10 @@ jobs:
             sudo apt install rsync
             pip3 install ansible
             pip3 install ansible-tower-cli
-      - save_cache:
-          key: deps-{{ checksum "~/app/src/requirements.txt" }}
-          paths:
-            - ~/temp
+      # - save_cache:
+      #     key: deps-{{ checksum "~/app/src/requirements.txt" }}
+      #     paths:
+      #       - ~/temp
       - deploy:
           name: Deploy to production
           command: |
