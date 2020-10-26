@@ -27,8 +27,8 @@ jobs:
           command: |
             sudo apt update
             sudo apt install rsync
-            pip3 install ansible
-            pip3 install ansible-tower-cli
+            sudo pip3 install ansible
+            sudo pip3 install ansible-tower-cli
       # - save_cache:
       #     key: deps-{{ checksum "~/app/src/requirements.txt" }}
       #     paths:
