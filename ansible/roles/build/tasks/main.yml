@@ -12,7 +12,9 @@
 
 - name: "Rsync repository content to latest build directory"
   synchronize:
-    src: "{{ lookup('env', 'CIRCLE_WORKING_DIRECTORY') }}/src" # "{{ PROJECT_SOURCE somehow sees /tmp/awx(randomshit) }}"
+    src: "~/app/src"
+    # "{{ PROJECT_SOURCE somehow sees /tmp/awx(randomshit) }}"
+    # lookup('env', 'CIRCLE_WORKING_DIRECTORY') }}
     dest: "{{ LATEST_BUILD_DIR }}"
 
 - stat: path={{ CURRENT_RELEASE_DIR }}
