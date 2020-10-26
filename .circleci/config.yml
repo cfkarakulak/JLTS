@@ -15,7 +15,7 @@ jobs:
       #     keys:
       #       - deps-{{ checksum "~/app/src/requirements.txt" }}
       - run:
-          name: Push tag to repository
+          name: Push tag to repository2
           command: |
             make tag
       - run:
