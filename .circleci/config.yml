@@ -1,8 +1,8 @@
 version: 2
 jobs:
   build:
-    machine:
-      image: ubuntu-1604:202007-01
+    docker:
+        - image: docker:19.03.6-git
     working_directory: ~/app
     environment:
       - ANSIBLE_HOST_KEY_CHECKING: False
