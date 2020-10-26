@@ -15,6 +15,10 @@ jobs:
       #     keys:
       #       - deps-{{ checksum "~/app/src/requirements.txt" }}
       - run:
+          name: Pasdasd
+          command: |
+            apt-get update && apt-get install make
+      - run:
           name: Push tag to repository
           command: |
             make tag
