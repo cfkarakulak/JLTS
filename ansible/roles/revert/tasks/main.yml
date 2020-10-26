@@ -1,0 +1,17 @@
+---
+
+- name: "Determine penultimate build"
+  shell: ls -d {{ ALL_BUILDS_DIR }}/* | tail -n +{{ STORE_X_BUILDS }} | head -1
+  register: penultimate_build
+
+- name: 'Changing symlink'
+  debug:
+    msg: "{{ penultimate_build.stdout }}"
+
+- name: "Update current release symlink"
+  file:
+    state: link
+    force: yes
+    path: "{{ CURRENT_RELEASE_DIR }}"
+    src: "{{ penultimate_build.stdout }}"
+

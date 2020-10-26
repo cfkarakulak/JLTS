@@ -1,0 +1,10 @@
+---
+
+- name: "Rollback to latest stable version"
+  hosts: JLPlayground
+  any_errors_fatal: true
+  become: true
+  roles:
+    - revert
+    - supervisor
+    - cron
