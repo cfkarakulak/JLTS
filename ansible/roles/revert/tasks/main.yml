@@ -14,4 +14,3 @@
     force: yes
     path: "{{ CURRENT_RELEASE_DIR }}"
     src: "{{ penultimate_build.stdout }}"
-
