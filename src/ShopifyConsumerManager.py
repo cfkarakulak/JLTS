@@ -121,5 +121,5 @@ def main():
     channel.start_consuming()
 
 if __name__ == "__main__":
-    logger.critical("BU zZzZzZzzzzz")
+    logger.critical("BU UAEUQWUEWQUEQWUEQWUEQWUEUQWEUQWEUQWUEQWUEQWUEQWUE")
     # main()
