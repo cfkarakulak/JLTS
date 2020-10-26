@@ -4,6 +4,10 @@
   shell: ls -d {{ ALL_BUILDS_DIR }}/* | tail -n +{{ STORE_X_BUILDS }} | head -1
   register: penultimate_build
 
+- name: 'asdasd'
+  debug:
+    msg: "{{ penultimate_build }}"
+
 - name: 'Changing symlink'
   debug:
     msg: "{{ penultimate_build.stdout }}"
