@@ -1,8 +1,8 @@
 version: 2
 jobs:
   build:
-    docker:
-        - image: circleci/python:3.6.2
+    machine:
+      image: ubuntu-1604:202007-01
     working_directory: ~/app
     environment:
       - ANSIBLE_HOST_KEY_CHECKING: False
@@ -14,10 +14,6 @@ jobs:
       # - restore_cache:
       #     keys:
       #       - deps-{{ checksum "~/app/src/requirements.txt" }}
-      # - run:
-      #     name: Pasdasd
-      #     command: |
-      #       apt-get update && apt-get install make
       - run:
           name: Push tag to repository
           command: |
@@ -27,8 +23,8 @@ jobs:
           command: |
             sudo apt update
             sudo apt install rsync
-            sudo pip3 install ansible
-            sudo pip3 install ansible-tower-cli
+            pip3 install ansible
+            pip3 install ansible-tower-cli
       # - save_cache:
       #     key: deps-{{ checksum "~/app/src/requirements.txt" }}
       #     paths:
