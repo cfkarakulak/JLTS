@@ -1,0 +1,19 @@
+---
+
+- name: Check if build dir exists
+  stat:
+    path: "{{ ALL_BUILDS_DIR }}/{{ tag }}"
+  register: build_dir
+
+- name: 'Changing symlink'
+  debug:
+    msg: "{{ ALL_BUILDS_DIR }}/{{ tag }}"
+  when: build_dir.stat.exists and build_dir.stat.isdir
+
+- name: "Update current release symlink"
+  file:
+    state: link
+    force: yes
+    path: "{{ CURRENT_RELEASE_DIR }}"
+    src: "{{ ALL_BUILDS_DIR }}/{{ tag }}"
+  when: build_dir.stat.exists and build_dir.stat.isdir

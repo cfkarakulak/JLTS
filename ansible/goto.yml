@@ -1,0 +1,10 @@
+---
+
+- name: "Go to a specific build tag"
+  hosts: JLPlayground
+  any_errors_fatal: true
+  become: true
+  roles:
+    - goto
+    - supervisor
+    - cron

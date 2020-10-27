@@ -1,12 +1,9 @@
 ---
 
 - name: "Determine penultimate build"
-  shell: ls -d {{ ALL_BUILDS_DIR }}/* | tail -n +{{ STORE_X_BUILDS }} | head -1
+  shell: ls -td -- {{ ALL_BUILDS_DIR }}/*/ | head -n2 | tail -n1 | cut -d'/' -f6
+  # shell: ls -d {{ ALL_BUILDS_DIR }}/* | tail -n +{{ STORE_X_BUILDS }} | head -1
   register: penultimate_build
-
-- name: 'asdasd'
-  debug:
-    msg: "{{ penultimate_build }}"
 
 - name: 'Changing symlink'
   debug:
@@ -17,4 +14,4 @@
     state: link
     force: yes
     path: "{{ CURRENT_RELEASE_DIR }}"
-    src: "{{ penultimate_build.stdout }}"
+    src: "{{ ALL_BUILDS_DIR }}/{{ penultimate_build.stdout }}"
