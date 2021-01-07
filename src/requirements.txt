@@ -16,7 +16,7 @@ dynaconf==2.2.3
 emails==0.6
 idna==2.9
 loguru==0.5.1
-lxml==4.5.2
+lxml==4.6.2
 multidict==4.7.5
 mws @ git+https://github.com/python-amazon-mws/python-amazon-mws.git@3e8f3de1105fb272935f81e452ee5e136024fe21
 pamqp==2.3.0
